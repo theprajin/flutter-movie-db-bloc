@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_movie_db_bloc/bloc/popular_bloc.dart';
+
 import 'package:flutter_movie_db_bloc/constants/const_widgets.dart';
 
 class PopularScreen extends StatefulWidget {

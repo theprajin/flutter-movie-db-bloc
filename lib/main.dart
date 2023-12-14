@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_movie_db_bloc/bloc/popular_bloc.dart';
 import 'package:flutter_movie_db_bloc/bloc/top_bloc/top_bloc.dart';
+import 'package:flutter_movie_db_bloc/bloc/upcoming_bloc/upcoming_bloc.dart';
 import 'package:flutter_movie_db_bloc/constants/const_widgets.dart';
 import 'package:flutter_movie_db_bloc/data/data_provider/popular_api_provider.dart';
 import 'package:flutter_movie_db_bloc/data/data_provider/top_api_provider.dart';
+import 'package:flutter_movie_db_bloc/data/data_provider/upcomint_api_provider.dart';
 import 'package:flutter_movie_db_bloc/data/repository/popular_api_repository.dart';
 import 'package:flutter_movie_db_bloc/data/repository/top_api_repository.dart';
+import 'package:flutter_movie_db_bloc/data/repository/upcoming_api_repository.dart';
 import 'package:flutter_movie_db_bloc/presentation/screens/home_screen.dart';
 
 void main() {
@@ -25,7 +28,10 @@ class MyApp extends StatelessWidget {
             create: (context) => PopularAPIRepository(PopularAPIProvider())),
         RepositoryProvider(
           create: (context) => TopAPIRepository(TopAPIProvider()),
-        )
+        ),
+        RepositoryProvider(
+          create: (context) => UpcomingAPIRepository(UpcomingAPIProvider()),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -34,7 +40,10 @@ class MyApp extends StatelessWidget {
                     context.read<PopularAPIRepository>(),
                   )),
           BlocProvider(
-              create: (context) => TopBloc(context.read<TopAPIRepository>()))
+              create: (context) => TopBloc(context.read<TopAPIRepository>())),
+          BlocProvider(
+              create: (context) =>
+                  UpcomingBloc(context.read<UpcomingAPIRepository>())),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
