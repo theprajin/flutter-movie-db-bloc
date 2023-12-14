@@ -37,26 +37,32 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
 
       final data = state.movieModel.results;
 
-      return GridView.builder(
-          itemCount: data!.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 2 / 3,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5,
-          ),
-          itemBuilder: (context, index) {
-            final movie = data[index];
+      return RefreshIndicator(
+        onRefresh: () async {
+          context.read<UpcomingBloc>().add(UpcomingFetched());
+          await Future.delayed(const Duration(seconds: 2));
+        },
+        child: GridView.builder(
+            itemCount: data!.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 2 / 3,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
+            ),
+            itemBuilder: (context, index) {
+              final movie = data[index];
 
-            return CachedNetworkImage(
-              imageUrl:
-                  'https://image.tmdb.org/t/p/original${movie.posterPath ?? ''}',
-              errorWidget: (context, url, error) {
-                return const Icon(Icons.error);
-              },
-              placeholder: (context, url) => dualRing,
-            );
-          });
+              return CachedNetworkImage(
+                imageUrl:
+                    'https://image.tmdb.org/t/p/original${movie.posterPath ?? ''}',
+                errorWidget: (context, url, error) {
+                  return const Icon(Icons.error);
+                },
+                placeholder: (context, url) => dualRing,
+              );
+            }),
+      );
     });
   }
 }
