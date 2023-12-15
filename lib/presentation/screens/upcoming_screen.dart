@@ -22,47 +22,53 @@ class _UpcomingScreenState extends State<UpcomingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UpcomingBloc, UpcomingState>(builder: (context, state) {
-      if (state is UpcomingFailure) {
-        return Center(
-          child: Text(state.error),
-        );
-      }
+    return BlocBuilder<UpcomingBloc, UpcomingState>(
+      builder: (context, state) {
+        if (state is UpcomingFailure) {
+          return Center(
+            child: Text(state.error),
+          );
+        }
 
-      if (state is! UpcomingSuccess) {
+        if (state is UpcomingSuccess || state is UpcomingLoadMoreSuccess) {
+          final data = state.movies;
+
+          return NotificationListener(
+            onNotification: (ScrollEndNotification onNotification) {
+              final before = onNotification.metrics.extentBefore;
+              final max = onNotification.metrics.maxScrollExtent;
+              if (before == max) {
+                context.read<UpcomingBloc>().add(UpcomingLoadMore());
+              }
+              return true;
+            },
+            child: GridView.builder(
+                itemCount: data?.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 2 / 3,
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 5,
+                ),
+                itemBuilder: (context, index) {
+                  final movie = data![index];
+
+                  return CachedNetworkImage(
+                    imageUrl:
+                        'https://image.tmdb.org/t/p/original${movie.posterPath ?? ''}',
+                    errorWidget: (context, url, error) {
+                      return const Icon(Icons.error);
+                    },
+                    placeholder: (context, url) => dualRing,
+                  );
+                }),
+          );
+        }
+
         return const Center(
           child: CircularProgressIndicator(),
         );
-      }
-
-      final data = state.movieModel.results;
-
-      return RefreshIndicator(
-        onRefresh: () async {
-          context.read<UpcomingBloc>().add(UpcomingFetched());
-          await Future.delayed(const Duration(seconds: 2));
-        },
-        child: GridView.builder(
-            itemCount: data!.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 2 / 3,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
-            ),
-            itemBuilder: (context, index) {
-              final movie = data[index];
-
-              return CachedNetworkImage(
-                imageUrl:
-                    'https://image.tmdb.org/t/p/original${movie.posterPath ?? ''}',
-                errorWidget: (context, url, error) {
-                  return const Icon(Icons.error);
-                },
-                placeholder: (context, url) => dualRing,
-              );
-            }),
-      );
-    });
+      },
+    );
   }
 }
