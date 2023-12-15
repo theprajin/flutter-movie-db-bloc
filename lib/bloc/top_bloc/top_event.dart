@@ -4,3 +4,5 @@ part of 'top_bloc.dart';
 sealed class TopEvent {}
 
 final class TopFetched extends TopEvent {}
+
+final class TopLoadMore extends TopEvent {}

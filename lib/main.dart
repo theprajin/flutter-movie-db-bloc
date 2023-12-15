@@ -7,6 +7,7 @@ import 'package:flutter_movie_db_bloc/bloc/upcoming_bloc/upcoming_bloc.dart';
 import 'package:flutter_movie_db_bloc/data/data_provider/popular_api_provider.dart';
 import 'package:flutter_movie_db_bloc/data/data_provider/top_api_provider.dart';
 import 'package:flutter_movie_db_bloc/data/data_provider/upcomint_api_provider.dart';
+import 'package:flutter_movie_db_bloc/data/repository/movie_api_repository.dart';
 import 'package:flutter_movie_db_bloc/data/repository/popular_api_repository.dart';
 import 'package:flutter_movie_db_bloc/data/repository/top_api_repository.dart';
 import 'package:flutter_movie_db_bloc/data/repository/upcoming_api_repository.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
                     context.read<PopularAPIRepository>(),
                   )),
           BlocProvider(
-              create: (context) => TopBloc(context.read<TopAPIRepository>())),
+              create: (context) => TopBloc(context.read<MovieAPIRepository>())),
           BlocProvider(
               create: (context) =>
                   UpcomingBloc(context.read<UpcomingAPIRepository>())),
