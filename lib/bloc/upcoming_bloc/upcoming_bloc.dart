@@ -22,10 +22,9 @@ class UpcomingBloc extends Bloc<UpcomingEvent, UpcomingState> {
   ) async {
     emit(UpcomingLoading());
     try {
-      movieList.clear();
       final popularMovies =
           await movieAPIRepository.getPopularMovies(pathQuery: 'upcoming');
-      movieList = [...movieList, ...popularMovies!];
+      movieList = [...popularMovies!];
       emit(UpcomingSuccess(popularMovies));
     } catch (e) {
       emit(UpcomingFailure(e.toString()));

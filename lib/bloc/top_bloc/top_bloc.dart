@@ -22,10 +22,9 @@ class TopBloc extends Bloc<TopEvent, TopState> {
   ) async {
     emit(TopLoading());
     try {
-      movieList.clear();
       final popularMovies =
           await movieAPIRepository.getPopularMovies(pathQuery: 'top_rated');
-      movieList = [...movieList, ...popularMovies!];
+      movieList = [...popularMovies!];
       emit(TopSuccess(popularMovies));
     } catch (e) {
       emit(TopFailure(e.toString()));

@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class MovieModel {
   int? page;
   List<Results>? results;
@@ -27,6 +28,11 @@ class MovieModel {
     data['total_pages'] = this.totalPages;
     data['total_results'] = this.totalResults;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'MovieModel(page: $page, results: $results, totalPages: $totalPages, totalResults: $totalResults)';
   }
 }
 
@@ -96,5 +102,10 @@ class Results {
     data['vote_average'] = this.voteAverage;
     data['vote_count'] = this.voteCount;
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'Results(adult: $adult, backdropPath: $backdropPath, genreIds: $genreIds, id: $id, originalLanguage: $originalLanguage, originalTitle: $originalTitle, overview: $overview, popularity: $popularity, posterPath: $posterPath, releaseDate: $releaseDate, title: $title, video: $video, voteAverage: $voteAverage, voteCount: $voteCount)';
   }
 }

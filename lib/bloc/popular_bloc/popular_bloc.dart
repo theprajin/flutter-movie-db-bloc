@@ -23,10 +23,11 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
   ) async {
     emit(PopularLoading());
     try {
-      movieList.clear();
+      // movieList.clear();
       final popularMovies =
           await movieAPIRepository.getPopularMovies(pathQuery: "popular");
-      movieList = [...movieList, ...popularMovies!];
+      movieList = [...popularMovies!];
+
       emit(PopularSuccess(popularMovies));
     } catch (e) {
       emit(PopularFailure(e.toString()));
@@ -44,6 +45,7 @@ class PopularBloc extends Bloc<PopularEvent, PopularState> {
         pathQuery: 'popular',
       );
       movieList = [...movieList, ...popularMovies!];
+
       emit(PopularLoadMoreSuccess(movieList));
     } catch (e) {
       emit(PopularFailure(e.toString()));
