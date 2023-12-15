@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_movie_db_bloc/bloc/popular_bloc.dart';
+
+import 'package:flutter_movie_db_bloc/bloc/popular_bloc/popular_bloc.dart';
 import 'package:flutter_movie_db_bloc/bloc/top_bloc/top_bloc.dart';
 import 'package:flutter_movie_db_bloc/bloc/upcoming_bloc/upcoming_bloc.dart';
 import 'package:flutter_movie_db_bloc/data/data_provider/movie_api_provider.dart';

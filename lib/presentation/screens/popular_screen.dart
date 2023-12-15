@@ -3,7 +3,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_movie_db_bloc/bloc/popular_bloc.dart';
+
+import 'package:flutter_movie_db_bloc/bloc/popular_bloc/popular_bloc.dart';
 
 import 'package:flutter_movie_db_bloc/constants/const_widgets.dart';
 
