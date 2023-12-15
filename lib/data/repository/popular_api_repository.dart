@@ -8,13 +8,14 @@ class PopularAPIRepository {
 
   PopularAPIRepository(this.popularAPIProvider);
 
-  Future<MovieModel> getPopularMovies() async {
+  Future<List<Results>?> getPopularMovies({int page = 1}) async {
     try {
-      final popularMovies = await popularAPIProvider.getPopularMovies();
+      final popularMovies =
+          await popularAPIProvider.getPopularMovies(page: page);
 
       final data = jsonDecode(popularMovies);
 
-      return MovieModel.fromJson(data);
+      return MovieModel.fromJson(data).results;
     } catch (e) {
       print('repository error: ${e.toString()}');
       throw e.toString();

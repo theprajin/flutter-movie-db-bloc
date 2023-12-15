@@ -4,3 +4,5 @@ part of 'popular_bloc.dart';
 sealed class PopularEvent {}
 
 final class PopularFetched extends PopularEvent {}
+
+final class PopularLoadMore extends PopularEvent {}

@@ -8,22 +8,42 @@ part 'popular_state.dart';
 
 class PopularBloc extends Bloc<PopularEvent, PopularState> {
   final PopularAPIRepository popularAPIRepository;
+  int page = 1;
+  List<Results> movieList = [];
+
   PopularBloc(this.popularAPIRepository) : super(PopularInitial()) {
-    on<PopularEvent>(_getPopularMovies);
+    on<PopularFetched>(_getPopularMovies);
+    on<PopularLoadMore>(_loadMorePopularMovies);
   }
 
-  void _getPopularMovies(PopularEvent event, Emitter<PopularState> emit) async {
+  void _getPopularMovies(
+    PopularFetched event,
+    Emitter<PopularState> emit,
+  ) async {
     emit(PopularLoading());
     try {
+      movieList.clear();
       final popularMovies = await popularAPIRepository.getPopularMovies();
+      movieList = [...movieList, ...popularMovies!];
       emit(PopularSuccess(popularMovies));
     } catch (e) {
       emit(PopularFailure(e.toString()));
     }
   }
 
-  @override
-  void onError(Object error, StackTrace stackTrace) {
-    super.onError(error, stackTrace);
+  void _loadMorePopularMovies(
+    PopularLoadMore event,
+    Emitter<PopularState> emit,
+  ) async {
+    page++;
+    try {
+      final popularMovies = await popularAPIRepository.getPopularMovies(
+        page: page,
+      );
+      movieList = [...movieList, ...popularMovies!];
+      emit(PopularLoadMoreSuccess(movieList));
+    } catch (e) {
+      emit(PopularFailure(e.toString()));
+    }
   }
 }

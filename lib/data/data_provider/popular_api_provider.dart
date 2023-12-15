@@ -1,10 +1,14 @@
 import 'package:http/http.dart' as http;
 
 class PopularAPIProvider {
-  Future<String> getPopularMovies() async {
+  Future<String> getPopularMovies({required int page}) async {
+    final Map<String, String> queryParameters = {
+      'page': '$page',
+    };
     try {
       final res = await http.get(
-          Uri.parse('https://api.themoviedb.org/3/movie/popular'),
+          Uri.parse('https://api.themoviedb.org/3/movie/popular')
+              .replace(queryParameters: queryParameters),
           headers: {
             'Content-Type': 'application/json',
             "Accept": "application/json",
