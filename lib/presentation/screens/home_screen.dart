@@ -29,7 +29,9 @@ class _HomeState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectPageIndex],
+      body: SafeArea(
+        child: _pages[_selectPageIndex],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -46,6 +48,10 @@ class _HomeState extends State<HomeScreen> {
           ),
         ],
         currentIndex: _selectPageIndex,
+        selectedIconTheme: const IconThemeData(opacity: 0.0, size: 0.0),
+        unselectedIconTheme: const IconThemeData(opacity: 0.0, size: 0.0),
+        selectedFontSize: 20,
+        unselectedFontSize: 17,
         onTap: _selectPage,
       ),
     );
